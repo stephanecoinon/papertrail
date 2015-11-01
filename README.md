@@ -21,11 +21,12 @@ It is good practice *not* to include credentials in your code so passwords are n
 ```php
 require __DIR__ . '/vendor/autoload.php';
 
-use StephaneCoinon\Papertrail\Default as Papertrail;
+use StephaneCoinon\Papertrail\Base as Papertrail;
 
 // Boot using default settings (ie Papertrail log server and port
-// from environment variables and no log message prefix)
-Papertrail::boot();
+// from environment variables and no log message prefix).
+// It also gives you a monolog instance in the process.
+$logger = Papertrail::boot();
 ```
 
 ### Laravel 4
