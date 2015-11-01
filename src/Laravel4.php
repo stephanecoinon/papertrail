@@ -7,6 +7,8 @@ use Monolog\Handler\SyslogUdpHandler;
 
 class Laravel4
 {
+    public static $defaultLoggerName = 'Laravel4Papertrail';
+
     /**
      * Boot connector with given host, port and log message prefix.
      * If host or port are omitted, we'll try to get them from the environment
@@ -48,6 +50,6 @@ class Laravel4
         }
 
         // otherwise create a new instance
-        return new \Monolog\Logger('Laravel4Papertrail');
+        return new \Monolog\Logger(static::$defaultLoggerName);
     }
 }

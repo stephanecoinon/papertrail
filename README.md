@@ -42,5 +42,8 @@ or
 ```
 
 
-### What about Laravel 5?
-use boot method
+### Laravel 5
+Edit `app/Providers/AppServiceProvider.php` and add this line in `boot` method:
+```php
+\StephaneCoinon\Papertrail\Laravel5::boot();
+```
