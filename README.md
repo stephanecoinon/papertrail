@@ -1,5 +1,7 @@
 # Papertrail PHP Connector
 
+![CodeShip build status](https://codeship.com/projects/31e0e160-6306-0133-32b6-62dbb5275a9f/status?branch=master)
+
 Easily integrate [Papertrail log monitor](https://papertrailapp.com) in your PHP applications. This package provides integration for plain vanilla PHP and Laravel.
 
 ## Installation
