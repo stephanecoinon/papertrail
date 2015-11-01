@@ -44,7 +44,7 @@ class Laravel4
     {
         // Use facade if it is available
         if (class_exists('Log')) {
-            return Log::getMonolog();
+            return \Log::getMonolog();
         }
 
         // otherwise create a new instance
