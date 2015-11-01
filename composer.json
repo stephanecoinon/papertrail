@@ -1,0 +1,26 @@
+{
+    "name": "stephanecoinon/papertrail",
+    "description": "Integrate Papertrail log monitor in your PHP applications",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Stephane Coinon",
+            "email": "me@stephanecoinon.co.uk"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "StephaneCoinon\\Papertrail\\": "src/",
+            "StephaneCoinon\\Papertrail\\Spec\\": "spec//"
+        }
+    },
+    "require": {
+        "php": ">=5.4"
+    },
+    "require-dev": {
+        "monolog/monolog": "~1.11",
+        "crysalead/kahlan": "^1.2",
+        "illuminate/log": "~4.2",
+        "guzzlehttp/guzzle": "^6.1"
+    }
+}
