@@ -17,7 +17,7 @@ describe('Laravel 4 integration', function () {
         $message = 'this is a test log message';
         $logger->info($message);
 
-        $this->expect($this->papertrailClient->getLastEvent()->message)
+        expect($this->papertrailClient->getLastEvent()->message)
             ->toContain($message);
     });
 
@@ -29,8 +29,8 @@ describe('Laravel 4 integration', function () {
         $logger->info($message);
 
         $actualMessage = $this->papertrailClient->getLastEvent()->message;
-        $this->expect($actualMessage)->toContain("[$prefix]");
-        $this->expect($actualMessage)->toContain($message);
+        expect($actualMessage)->toContain("[$prefix]");
+        expect($actualMessage)->toContain($message);
     });
 
 });
