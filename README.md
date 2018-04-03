@@ -50,3 +50,13 @@ Edit `app/Providers/AppServiceProvider.php` and add this line in `boot` method:
 ```php
 \StephaneCoinon\Papertrail\Laravel5::boot();
 ```
+
+## Tests
+
+First, copy ```.env.dist``` as ```.env``` and set your Papertrail host, port and API key in it.
+
+Then run PHPUnit:
+
+```bash
+./vendor/bin/phpunit
+```

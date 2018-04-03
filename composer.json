@@ -10,8 +10,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "StephaneCoinon\\Papertrail\\": "src/",
-            "StephaneCoinon\\Papertrail\\Spec\\": "spec//"
+            "StephaneCoinon\\Papertrail\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
         }
     },
     "require": {
@@ -19,8 +23,9 @@
     },
     "require-dev": {
         "monolog/monolog": "~1.11",
-        "crysalead/kahlan": "^1.2",
         "illuminate/log": "~4.2",
-        "guzzlehttp/guzzle": "^6.1"
+        "guzzlehttp/guzzle": "^6.1",
+        "vlucas/phpdotenv": "^2.4",
+        "phpunit/phpunit": "^5.7"
     }
 }
