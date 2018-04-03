@@ -8,9 +8,17 @@
          beStrictAboutTestsThatDoNotTestAnything="true"
          beStrictAboutTodoAnnotatedTests="true"
          colors="true"
+         processIsolation="true"
          verbose="true">
-    <testsuite name="default">
-        <directory suffix="Test.php">tests</directory>
+    <testsuite name="php">
+        <file>tests/BaseTest.php</file>
+        <file>tests/LaravelDriverOutsideAppContextTest.php</file>
+    </testsuite>
+    <testsuite name="laravel-4.2">
+        <file>tests/Laravel42Test.php</file>
+    </testsuite>
+    <testsuite name="laravel-5.0">
+        <file>tests/Laravel50Test.php</file>
     </testsuite>
 
     <filter>

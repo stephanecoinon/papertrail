@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Helpers;
+namespace Tests\Support;
 
 use GuzzleHttp\Client as HttpClient;
 

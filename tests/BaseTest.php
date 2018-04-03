@@ -2,12 +2,15 @@
 
 namespace Tests;
 
-use Tests\TestCase;
-use Tests\TestsImplementation;
-
 class BaseTest extends TestCase
 {
-    use TestsImplementation;
+    use DriverContractTests;
 
-    public $implementation = \StephaneCoinon\Papertrail\Base::class;
+    public $driver = \StephaneCoinon\Papertrail\Base::class;
+
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->turnLaravelOff();
+    }
 }

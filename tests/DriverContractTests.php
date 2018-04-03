@@ -3,15 +3,16 @@
 namespace Tests;
 
 /**
- * Tests one implementation (Base, Laravel4, or Laravel5), set in implementation
- * property of TestCase.
+ * Tests one driver implementation (Base, Laravel4, or Laravel5).
+ * 
+ * Set the driver class path in the driver property of TestCase.
  */
-trait TestsImplementation
+trait DriverContractTests
 {
     /** @ test */
     function booting_using_host_and_port_only()
     {
-        $logger = $this->implementation::boot($this->host, $this->port);
+        $logger = $this->driver::boot($this->host, $this->port);
 
         $message = 'this is a test log message';
         $logger->info($message);
@@ -24,7 +25,7 @@ trait TestsImplementation
     function booting_using_prefix_only()
     {
         $prefix = '@PREFIX@';
-        $logger = $this->implementation::bootWithPrefix($prefix);
+        $logger = $this->driver::bootWithPrefix($prefix);
 
         $message = 'this is a test log message';
         $logger->info($message);
