@@ -8,12 +8,6 @@ use StephaneCoinon\Papertrail\Exceptions\LaravelNotDetectedException;
 trait LaravelContractTests
 {
     /** @test */
-    function detecting_whether_laravel_is_installed()
-    {
-        $this->assertTrue($this->driver::isLaravelInstalled());
-    }
-
-    /** @test */
     function booting_when_in_a_laravel_app()
     {
         try {

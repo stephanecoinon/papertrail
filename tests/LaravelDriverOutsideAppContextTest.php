@@ -14,12 +14,6 @@ class LaravelDriverOutsideAppContextTest extends TestCase
     }
 
     /** @test */
-    function detecting_whether_laravel_is_installed()
-    {
-        $this->assertFalse(Laravel::isLaravelInstalled());
-    }
-
-    /** @test */
     function laravel_driver_throws_an_exception_when_not_in_a_laravel_app()
     {
         $this->expectException(LaravelNotDetectedException::class);    
