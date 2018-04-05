@@ -1,6 +1,6 @@
 # Papertrail PHP Connector
 
-[![Build Status](https://travis-ci.org/stephanecoinon/papertrail.svg?branch=master)](https://travis-ci.org/stephanecoinon/papertrail)
+[![Build Status](https://travis-ci.org/stephanecoinon/papertrail.svg?branch=master)](https://travis-ci.org/stephanecoinon/papertrail) [![License](https://poser.pugx.org/stephanecoinon/papertrail/license.svg)](https://packagist.org/packages/stephanecoinon/papertrail)
 
 Easily integrate [Papertrail log monitor](https://papertrailapp.com) in your PHP applications. This package provides integration for plain vanilla PHP and Laravel.
 
