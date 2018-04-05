@@ -15,7 +15,10 @@ trait LoadsEnvironmentVariables
     public static function setUpEnvironmentVariables()
     {
         // Load .env config file if any
-        $dotenv = new Dotenv(__DIR__.'/../..');
-        $dotenv->load();
+        $dotEnvPath = __DIR__.'/../..';
+        if (file_exists($dotEnvPath.'/.env')) {
+            $dotenv = new Dotenv($dotEnvPath);
+            $dotenv->load();
+        }
     }
 }
