@@ -31,5 +31,8 @@
         "guzzlehttp/guzzle": "^6.1",
         "vlucas/phpdotenv": "^2.4",
         "phpunit/phpunit": "^7.0"
+    },
+    "suggest": {
+        "monolog/monolog": "Allows more advanced logging of the application flow"
     }
 }
