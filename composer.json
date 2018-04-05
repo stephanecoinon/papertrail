@@ -1,10 +1,11 @@
 {
     "name": "stephanecoinon/papertrail",
     "description": "Integrate Papertrail log monitor in your PHP applications",
+    "homepage": "https://github.com/stephanecoinon/papertrail",
     "license": "MIT",
     "authors": [
         {
-            "name": "Stephane Coinon",
+            "name": "Stéphane Coinon",
             "email": "me@stephanecoinon.co.uk"
         }
     ],
