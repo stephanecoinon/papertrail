@@ -3,8 +3,7 @@
 namespace Tests;
 
 use StephaneCoinon\Papertrail\Exceptions\LaravelNotDetectedException;
-use StephaneCoinon\Papertrail\Laravel4;
-use StephaneCoinon\Papertrail\Laravel5;
+use StephaneCoinon\Papertrail\Laravel;
 
 class LaravelDriverOutsideAppContextTest extends TestCase
 {
@@ -17,26 +16,14 @@ class LaravelDriverOutsideAppContextTest extends TestCase
     /** @test */
     function detecting_whether_laravel_is_installed()
     {
-        $this->assertFalse(Laravel4::isLaravelInstalled());
-        $this->assertFalse(Laravel5::isLaravelInstalled());
+        $this->assertFalse(Laravel::isLaravelInstalled());
     }
 
     /** @test */
-    function laravel4_driver_throws_an_exception_when_not_in_a_laravel_app()
-    {
-        $this->assertDriverThrowsExceptionOnBoot(Laravel4::class);
-    }
-
-    /** @test */
-    function laravel5_driver_throws_an_exception_when_not_in_a_laravel_app()
-    {
-        $this->assertDriverThrowsExceptionOnBoot(Laravel5::class);
-    }
-
-    protected function assertDriverThrowsExceptionOnBoot($driver)
+    function laravel_driver_throws_an_exception_when_not_in_a_laravel_app()
     {
         $this->expectException(LaravelNotDetectedException::class);    
 
-        $driver::boot();
+        Laravel::boot();
     }
 }

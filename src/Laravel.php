@@ -4,9 +4,9 @@ namespace StephaneCoinon\Papertrail;
 
 use StephaneCoinon\Papertrail\Exceptions\LaravelNotDetectedException;
 
-class Laravel4 extends Base
+class Laravel extends Php
 {
-    public static $defaultLoggerName = 'Laravel4Papertrail';
+    public static $defaultLoggerName = 'Laravel';
 
     /**
      * Is Laravel installed?
@@ -37,6 +37,14 @@ class Laravel4 extends Base
      */
     public function getLogger()
     {
-        return app('log')->getMonolog();
+        $logger = app('log');
+
+        // Laravel < 5.6
+        if ($logger instanceof \Illuminate\Log\Writer) {
+            return $logger->getMonolog();
+        }
+
+        // Laravel >= 5.6
+        return $logger->getLogger();
     }
 }

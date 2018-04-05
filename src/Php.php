@@ -5,9 +5,9 @@ namespace StephaneCoinon\Papertrail;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\SyslogUdpHandler;
 
-class Base
+class Php
 {
-    public static $defaultLoggerName = 'BasePapertrail';
+    public static $defaultLoggerName = 'PHP';
 
     /**
      * Papertrail log handler.

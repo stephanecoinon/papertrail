@@ -6,7 +6,7 @@ class BaseTest extends TestCase
 {
     use DriverContractTests;
 
-    public $driver = \StephaneCoinon\Papertrail\Base::class;
+    public $driver = \StephaneCoinon\Papertrail\Php::class;
 
     protected function setUp()
     {

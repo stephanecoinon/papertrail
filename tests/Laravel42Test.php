@@ -6,7 +6,7 @@ class Laravel42Test extends TestCase
 {
     use LaravelContractTests, DriverContractTests;
 
-    public $driver = \StephaneCoinon\Papertrail\Laravel4::class;
+    public $driver = \StephaneCoinon\Papertrail\Laravel::class;
      
     public function setUp()
     {

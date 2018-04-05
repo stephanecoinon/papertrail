@@ -21,7 +21,7 @@ It is good practice *not* to include credentials in your code so passwords are n
 ```php
 require __DIR__ . '/vendor/autoload.php';
 
-use StephaneCoinon\Papertrail\Base as Papertrail;
+use StephaneCoinon\Papertrail\Php as Papertrail;
 
 // Boot using default settings (ie Papertrail log server and port
 // from environment variables and no log message prefix).
@@ -34,21 +34,21 @@ Add these line in your `start/global.php`:
 
 ```php
 // Pass all parameters
-\StephaneCoinon\Papertrail\Laravel4::boot($host, $port, $prefix);
+\StephaneCoinon\Papertrail\Laravel::boot($host, $port, $prefix);
 ```
 
 or
 
 ```php
 // Grab log server details from environment variables and use a prefix
-\StephaneCoinon\Papertrail\Laravel4::bootWithPrefix('MY_APP');
+\StephaneCoinon\Papertrail\Laravel::bootWithPrefix('MY_APP');
 ```
 
 
 ### Laravel 5
 Edit `app/Providers/AppServiceProvider.php` and add this line in `boot` method:
 ```php
-\StephaneCoinon\Papertrail\Laravel5::boot();
+\StephaneCoinon\Papertrail\Laravel::boot();
 ```
 
 ## Tests

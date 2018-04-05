@@ -10,7 +10,7 @@ class Laravel56Test extends TestCase
 {
     use LaravelContractTests, DriverContractTests;
 
-    public $driver = \StephaneCoinon\Papertrail\Laravel5::class;
+    public $driver = \StephaneCoinon\Papertrail\Laravel::class;
     
     public function setUp()
     {
