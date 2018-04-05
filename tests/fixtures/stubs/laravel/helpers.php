@@ -12,6 +12,11 @@ if (! function_exists('app')) {
 	function app($make = null)
     {
         // In all the tests, we're only interested in resolving the logger
-        return new \Illuminate\Log\Writer(new \Monolog\Logger(''));
+        $laravelVersion = \Tests\Support\Container::get('laravel.version');
+        $loggerClass = $laravelVersion < '5.6'
+            ? \Illuminate\Log\Writer::class
+            : \Illuminate\Log\Logger::class;
+
+        return new $loggerClass(new \Monolog\Logger(''));
     }
 }

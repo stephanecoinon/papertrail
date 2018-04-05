@@ -20,6 +20,9 @@
     <testsuite name="laravel-5.0">
         <file>tests/Laravel50Test.php</file>
     </testsuite>
+    <testsuite name="laravel-5.6">
+        <file>tests/Laravel56Test.php</file>
+    </testsuite>
 
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
