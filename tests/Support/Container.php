@@ -32,4 +32,9 @@ class Container
             unset(static::$bindings[$key]);           
         }
     }
+
+    public static function flush()
+    {
+        static::$bindings = [];
+    }
 }

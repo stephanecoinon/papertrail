@@ -1,16 +1,12 @@
 <?php
 
-namespace Tests\Laravel56;
-
-use Tests\LaravelContractTests;
-use Tests\TestCase;
-use Tests\DriverContractTests;
+namespace Tests;
 
 class Laravel56Test extends TestCase
 {
-    use LaravelContractTests, DriverContractTests;
+    use BootTests, LaravelContractTests;
 
-    public $driver = \StephaneCoinon\Papertrail\Laravel::class;
+    public $driverClass = \StephaneCoinon\Papertrail\Laravel::class;
     
     public function setUp()
     {

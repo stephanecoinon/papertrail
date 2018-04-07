@@ -37,13 +37,27 @@ use StephaneCoinon\Papertrail\Php as Papertrail;
 // Boot using default settings (ie Papertrail log server and port
 // from environment variables and no log message prefix).
 // It also gives you a monolog instance in the process.
-$logger = Papertrail::boot();
+$logger = Papertrail::boot()->getLogger();
 
 // Now your logs will appear in Papertrail dashboard.
 $logger->info('test log');
 ```
 
-### Laravel 4
+### Laravel
+
+The Laravel driver tries to fetch the Papertrail settings from the services configuration before reading the environment variables.
+So you just need to set the host and port in `config/services.php`:
+
+```php
+// When using the services configuration, you can call your environment variables whatever you like.
+
+'papertrail' => [
+    'host' => env('PAPERTRAIL_HOST'),
+    'port' => env('PAPERTRAIL_PORT'),
+],
+```
+
+#### Laravel 4
 Add these lines in your `start/global.php`:
 
 ```php
@@ -54,12 +68,23 @@ Add these lines in your `start/global.php`:
 or
 
 ```php
-// Grab log server details from environment variables and use a prefix
+// Grab log server details from services configuration or environment variables and use a prefix
 \StephaneCoinon\Papertrail\Laravel::bootWithPrefix('MY_APP');
 ```
 
+then test it's working:
 
-### Laravel 5
+```php
+// app/routes.php
+
+Route::get('log', function () {
+    Log::info('test log', ['foo' => 'bar']);
+
+    return 'Logged';
+});
+```
+
+#### Laravel 5
 Edit `app/Providers/AppServiceProvider.php` and add this line in `boot` method:
 
 ```php
@@ -76,7 +101,6 @@ Route::get('log', function () {
 
     return 'Logged';
 });
-
 ```
 
 
@@ -88,24 +112,25 @@ All drivers provide the following interface:
 /**
  * Boot connector with given host, port and log message prefix.
  * 
- * If host or port are omitted, we'll try to get them from the environment
- * variables PAPERTRAIL_HOST and PAPERTRAIL_PORT.
+ * If host or port are omitted, we'll try first to fetch them from the framework
+ * services configuration otherwise we'll default to the environment variables
+ * PAPERTRAIL_HOST and PAPERTRAIL_PORT.
  * 
  * @param  string $host   Papertrail log server, ie log.papertrailapp.com
  * @param  int $port      Papertrail port number for log server
  * @param  string $prefix Prefix to use for each log message
- * @return \Psr\Log\LoggerInterface
+ * @return static
  */
 public static function boot($host = null, $port = null, $prefix = '')
 ```
 
 ```php
 /**
- * Boot connector using credentials set in environment variables and the
- * given log message prefix.
+ * Boot connector using host and port set in configuration or environment
+ * variables, and the given log message prefix.
  * 
  * @param string $prefix Prefix to use for each log message
- * @return \Psr\Log\LoggerInterface
+ * @return static
  */
 public static function bootWithPrefix($prefix)
 ```

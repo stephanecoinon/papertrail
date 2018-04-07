@@ -2,33 +2,28 @@
 
 namespace Tests;
 
-/**
- * Tests one driver implementation (Base, Laravel4, or Laravel5).
- * 
- * Set the driver class path in the driver property of TestCase.
- */
-trait DriverContractTests
+trait BootTests
 {
-    /** @ test */
+    /** @test */
     function booting_using_host_and_port_only()
     {
-        $logger = $this->driver::boot($this->host, $this->port);
+        $driver = $this->driverClass::boot(static::$host, static::$port);
 
         $message = 'this is a test log message';
-        $logger->info($message);
+        $driver->getLogger()->info($message);
 
         $this->waitForEventToBePushed();
         $this->assertStringContains($message, $this->getMostRecentMessage());
     }
-
+    
     /** @test */
     function booting_using_prefix_only()
     {
         $prefix = '@PREFIX@';
-        $logger = $this->driver::bootWithPrefix($prefix);
+        $driver = $this->driverClass::bootWithPrefix($prefix);
 
         $message = 'this is a test log message';
-        $logger->info($message);
+        $driver->getLogger()->info($message);
 
         $this->waitForEventToBePushed();
         $recentMessage = $this->getMostRecentMessage();

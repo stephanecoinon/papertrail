@@ -4,9 +4,9 @@ namespace Tests;
 
 class Laravel42Test extends TestCase
 {
-    use LaravelContractTests, DriverContractTests;
+    use BootTests, LaravelContractTests;
 
-    public $driver = \StephaneCoinon\Papertrail\Laravel::class;
+    public $driverClass = \StephaneCoinon\Papertrail\Laravel::class;
      
     public function setUp()
     {

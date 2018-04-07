@@ -11,8 +11,16 @@
          processIsolation="true"
          verbose="true">
     <testsuite name="php">
-        <file>tests/BaseTest.php</file>
+        <file>tests/FetchServerDetailsFromEnvironmentVariablesTest.php</file>
+        <file>tests/PhpTest.php</file>
+        <file>tests/FrameworkNotDetectedExceptionTest.php</file>
+    </testsuite>
+    <testsuite name="laravel">
         <file>tests/LaravelDriverOutsideAppContextTest.php</file>
+        <file>tests/FetchingServerDetailsFromServicesConfigTest.php</file>
+        <file>tests/Laravel42Test.php</file>
+        <file>tests/Laravel50Test.php</file>
+        <file>tests/Laravel56Test.php</file>
     </testsuite>
     <testsuite name="laravel-4.2">
         <file>tests/Laravel42Test.php</file>

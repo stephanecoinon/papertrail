@@ -10,6 +10,11 @@ trait FakesLaravel
 
     public function turnLaravelOn($version)
     {
+        if (! $version) {
+            $this->turnLaravelOff();
+            return;
+        }
+
         Container::put('laravel.version', $version);
 
         // Install Application class stub
@@ -18,6 +23,12 @@ trait FakesLaravel
             $this->fixturePath("stubs/laravel/{$version}/framework"),
             $this->laravelFrameworkPath
         );
+
+        // Set the logger instance into the container
+        $loggerClass = $version < '5.6'
+            ? \Illuminate\Log\Writer::class
+            : \Illuminate\Log\Logger::class;
+        Container::put('log', new $loggerClass(new \Monolog\Logger('')));
     }
 
     /** @after */
@@ -26,6 +37,6 @@ trait FakesLaravel
         // Uninstall Application
         @unlink($this->laravelFrameworkPath);
 
-        Container::delete('laravel.version');
+        Container::flush();
     }
 }

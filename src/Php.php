@@ -10,51 +10,73 @@ class Php
     public static $defaultLoggerName = 'PHP';
 
     /**
-     * Papertrail log handler.
+     * Papertrail host.
      *
-     * @var \Monolog\Handler\HandlerInterface
+     * @var string
      */
-    protected $handler;
+    protected $host;
+
+    /**
+     * Papertrail server port.
+     *
+     * @var int
+     */
+    protected $port;
+
+    /**
+     * Log message prefix.
+     *
+     * @var string
+     */
+    protected $prefix;
+
+    /**
+     * Underlying logger instance.
+     * 
+     * @var \Psr\Log\LoggerInterface
+     */
+    protected $logger;
 
     /**
      * Make a new PHP driver to send logs to Papertrail.
      *
-     * @param  string $host   Papertrail log server, ie log.papertrailapp.com
-     * @param  int $port      Papertrail port number for log server
+     * @param  null|string $host   Papertrail log server, ie log.papertrailapp.com
+     * @param  null|int $port      Papertrail port number for log server
      * @param  string $prefix Prefix to use for each log message
      */
-    protected function __construct($host, $port, $prefix)
+    public function __construct($host = null, $port = null, $prefix = '')
     {
-        $this->handler = $this->getHandler($host, $port, $prefix);
+        list($this->host, $this->port) = $this->resolveServerDetails($host, $port);
+        $this->prefix = $prefix;
     }
 
     /**
      * Boot connector with given host, port and log message prefix.
      * 
-     * If host or port are omitted, we'll try to get them from the environment
-     * variables PAPERTRAIL_HOST and PAPERTRAIL_PORT.
+     * If host or port are omitted, we'll try first to fetch them from the framework
+     * services configuration otherwise we'll default to the environment variables
+     * PAPERTRAIL_HOST and PAPERTRAIL_PORT.
      * 
-     * @param  string $host   Papertrail log server, ie log.papertrailapp.com
-     * @param  int $port      Papertrail port number for log server
+     * @param  null|string $host   Papertrail log server, ie log.papertrailapp.com
+     * @param  null|int $port      Papertrail port number for log server
      * @param  string $prefix Prefix to use for each log message
-     * @return \Psr\Log\LoggerInterface
+     * @return static
      */
     public static function boot($host = null, $port = null, $prefix = '')
     {
-        $host or $host = getenv('PAPERTRAIL_HOST');
-        $port or $port = getenv('PAPERTRAIL_PORT');
-        $prefix and $prefix = "[$prefix] ";
+        $driver = new static($host, $port, $prefix);
+        $driver->detectFrameworkOrFail();
+        $driver->registerPapertrailHandler();
 
-        return (new static($host, $port, $prefix))
-            ->detectFrameworkOrFail()
-            ->registerPapertrailHandler();
+        return $driver;
     }
 
     /**
-     * Boot connector using credentials set in environment variables and the
-     * given log message prefix.
+     * Boot connector using host and port set in configuration or environment
+     * variables, and the given log message prefix.
      * 
      * @param string $prefix Prefix to use for each log message
+     * @return static
      */
     public static function bootWithPrefix($prefix)
     {
@@ -62,42 +84,108 @@ class Php
     }
 
     /**
-     * Get Papertrail SysLog handler.
+     * Get Papertrail host.
      *
-     * @param string $host
-     * @param int $port
-     * @param string $prefix
-     * @return \Monolog\Handler\HandlerInterface
+     * @return string
      */
-    public function getHandler($host, $port, $prefix)
+    public function getHost()
     {
-        $syslog = new SyslogUdpHandler($host, $port);
-        $formatter = new LineFormatter("$prefix%channel%.%level_name%: %message% %extra%");
-        $syslog->setFormatter($formatter);
-
-        return $syslog;
+        return $this->host;
     }
 
     /**
-     * Get the logger instance.
+     * Get Papertrail server port.
      *
+     * @return int
+     */
+    public function getPort()
+    {
+        return $this->port;
+    }
+
+    /**
+     * Get log message prefix.
+     *
+     * @return string
+     */
+    public function getPrefix()
+    {
+        return $this->prefix;
+    }
+
+    /**
+     * Get log message format.
+     *
+     * @return string
+     */
+    public function getLogFormat()
+    {
+        $prefix = $this->prefix ? '['.$this->prefix.'] ' : '';
+        
+        return "{$prefix}%channel%.%level_name%: %message% %extra%";
+    }
+
+    /**
+     * Resolve the server details if not provided.
+     *
+     * @param  string $host
+     * @param  int $port
+     * @return array [$host, $port]
+     */
+    public function resolveServerDetails($host, $port)
+    {
+        $host or $host = getenv('PAPERTRAIL_HOST');
+        $port or $port = getenv('PAPERTRAIL_PORT');
+
+        return [$host, $port];
+    }
+
+    /**
+     * Get the underlying logger instance.
+     * 
      * @return \Psr\Log\LoggerInterface
      */
     public function getLogger()
     {
-        return new \Monolog\Logger(static::$defaultLoggerName);
+        return $this->logger;
     }
 
     /**
      * Throw an exception if the framework for this driver is not detected
      *
      * @return $this
-     * @throws FrameworkNotDetectedException
+     * @throws Exceptions\FrameworkNotDetectedException
      */
     protected function detectFrameworkOrFail()
     {
         // no framework to detect in a plain PHP context
         return $this;
+    }
+
+    /**
+     * Retrieve the logger instance.
+     *
+     * @return \Psr\Log\LoggerInterface
+     */
+    public function makeLogger()
+    {
+        $this->logger = new \Monolog\Logger(static::$defaultLoggerName);
+
+        return $this->logger;
+    }
+
+    /**
+     * Return new Papertrail SysLog handler instance.
+     *
+     * @return \Monolog\Handler\HandlerInterface
+     */
+    protected function makeHandler()
+    {
+        $syslog = new SyslogUdpHandler($this->host, $this->port);
+        $formatter = new LineFormatter($this->getLogFormat());
+        $syslog->setFormatter($formatter);
+
+        return $syslog;
     }
 
     /**
@@ -107,6 +195,6 @@ class Php
      */
     protected function registerPapertrailHandler()
     {
-        return $this->getLogger()->pushHandler($this->handler);
+        return $this->makeLogger()->pushHandler($this->makeHandler());
     }
 }

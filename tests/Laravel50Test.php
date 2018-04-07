@@ -1,19 +1,15 @@
 <?php
 
-namespace Tests\Laravel50;
-
-use Tests\LaravelContractTests;
-use Tests\TestCase;
-use Tests\DriverContractTests;
+namespace Tests;
 
 /**
  * Tests for Laravel versions >= 5.0 and < 5.6
  */
 class Laravel50Test extends TestCase
 {
-    use LaravelContractTests, DriverContractTests;
+    use BootTests, LaravelContractTests;
 
-    public $driver = \StephaneCoinon\Papertrail\Laravel::class;
+    public $driverClass = \StephaneCoinon\Papertrail\Laravel::class;
 
     public function setUp()
     {

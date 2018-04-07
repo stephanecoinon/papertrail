@@ -2,11 +2,11 @@
 
 namespace Tests;
 
-class BaseTest extends TestCase
+class PhpTest extends TestCase
 {
-    use DriverContractTests;
+    use BootTests;
 
-    public $driver = \StephaneCoinon\Papertrail\Php::class;
+    public $driverClass = \StephaneCoinon\Papertrail\Php::class;
 
     protected function setUp()
     {

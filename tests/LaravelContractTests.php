@@ -11,7 +11,7 @@ trait LaravelContractTests
     function booting_when_in_a_laravel_app()
     {
         try {
-            $this->driver::boot();
+            $this->driverClass::boot();
         } catch (LaravelNotDetectedException $e) {
             $this->fail('Laravel app was not detected although test is run in an app context');
             return;

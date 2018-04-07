@@ -2,6 +2,7 @@
 
 namespace StephaneCoinon\Papertrail;
 
+use Illuminate\Support\Facades\Config;
 use StephaneCoinon\Papertrail\Exceptions\LaravelNotDetectedException;
 
 class Laravel extends Php
@@ -21,6 +22,20 @@ class Laravel extends Php
     /**
      * {@inheritDoc}
      */
+    public function resolveServerDetails($host, $port)
+    {
+        // Try the services configuration
+        if (class_exists('Illuminate\Support\Facades\Config')) {
+            $host or $host = Config::get('services.papertrail.host');
+            $port or $port = Config::get('services.papertrail.port');
+        }
+
+        return parent::resolveServerDetails($host, $port);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     protected function detectFrameworkOrFail()
     {
         if (! $this->isLaravelInstalled()) {
@@ -31,20 +46,20 @@ class Laravel extends Php
     }
 
     /**
-     * Get the logger instance.
+     * Retrieve the logger instance.
      *
-     * @return \Psr\Log\LoggerInterface
+     * @return \Illuminate\Log\Writer|\Psr\Log\LoggerInterface
      */
-    public function getLogger()
+    public function makeLogger()
     {
-        $logger = app('log');
+        $laravelLogger = app('log');
 
-        // Laravel < 5.6
-        if ($logger instanceof \Illuminate\Log\Writer) {
-            return $logger->getMonolog();
-        }
+        $method = $laravelLogger instanceof \Illuminate\Log\Writer
+            ? 'getMonolog' // Laravel < 5.6
+            : 'getLogger'; // Laravel >= 5.6
+        
+        $this->logger = $laravelLogger->$method();
 
-        // Laravel >= 5.6
-        return $logger->getLogger();
+        return $this->logger;
     }
 }
